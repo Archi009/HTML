@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  단: <input type="number" name="dna" id="num">
+  <button id="btn">구구단출력</button>
+
+  <div id="show" style="margin-top: 20px;"></div>
+
+  <!-- <table>
+    <thead>
+      <tr>
+        <th>단</th>
+        <th>답</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td>11</td>
+        <td>11</td>
+      </tr>
+
+    </tbody>
+  </table> -->
+
+  <script>
+    let inp = document.querySelector('input');
+    let btn = document.querySelector('#btn');
+
+    btn.addEventListener('click', function () {
+      console.clear();  //초기화
+
+      let num = document.querySelector('input').valueAsNumber;
+      let show = document.querySelector('#show');
+      let tableBox = '';
+      show.innerHTML = ''; //초기화
+
+
+      inp.addEventListener('click', function (){
+        inp.value = ''
+      })
+
+
+      
+      tableBox += `<table border='1px'>
+                          <thead>
+                            <tr>
+                              <th>${num}단</th>
+                              <th>답</th>
+                            </tr>
+                          </thead>
+                          <tbody>`;
+
+      for (let i = 1; i < 10; i++) {
+        // show.innerHTML += `<p>${num} X ${i} = ${num * i}</p>`
+        // console.log(`${num} X ${i} = ${num * i}`);
+
+        tableBox += `<tr>
+                          <td>${num} X ${i} = </td>
+                          <td>${num * i}</td>
+                          </tr>`
+      };
+
+      tableBox += ` </tbody>
+                          </table>`
+
+      show.innerHTML = tableBox;
+    });
+  </script>
+</body>
+
+</html>

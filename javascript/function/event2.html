@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="mont">
+  <button id="mkCal">달력</button>
+  <div id="show"></div>
+  <!-- <table border="1">
+    <thead>
+      <tr>
+        <th>표</th>
+      </tr>
+    </thead>
+    <tbody id="list">
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+      </tr>
+    </tbody>
+  </table>
+   -->
+  <script>
+    let test = document.querySelector('div#show');
+    let mont = document.querySelector('input');
+    let tableBox = '';
+    let days = ['일', '월', '화', '수', '목', '금', '토'];
+    let space = 0; //1일의 위치 공백
+    let lastDay = 31; //마지막 날짜
+    let vac = []   ;   //공휴일
+    let btn = document.querySelector('button#mkCal')
+
+    btn.addEventListener('click', function(){
+      drawCalinder(parseInt(mont.value))
+    });
+
+     //달력 구하기 함수 시작
+     
+     
+     //달력그리기 함수
+     function drawCalinder(mon) {
+       console.log(mon);
+       //제외 
+       if(mon == 0 || isNaN(mon) || mon >= 13){
+         alert("응 없어");
+         return;
+        }
+        //마지막 날 시작 날 공휴일
+        
+        getDays(mon);
+        console.log(space, lastDay,vac);
+        //달력 시작
+        tableBox += `<table border="1">
+          <thead>
+            <tr>`;
+              
+              //요일 그리기
+              for (let i = 0; i < 7; i++) {
+                tableBox += `<th>${days[i]}</th>`;
+              }
+      tableBox += `</tr>
+                  </thead>
+                  <tbody id="list">`;
+                    
+      //공백 그리기
+      for (let i = 0; i < space; i++) {
+        tableBox += `<td></td>`;
+      }
+      
+      //날짜그리기
+      for (let i = 1; i <= lastDay; i++) {
+        if ((i + space) % 7 == 0) {
+          tableBox += `<td style = 'background-color : blue; color : yellow'>${[i]}</td></tr>`
+          // continue
+        } else if ((i + space) % 7 == 1) {
+          tableBox += `<td style = 'background-color : red; color : black'>${[i]}</td>`
+        } else {
+          tableBox += `<td>${[i]}</td>`
+        }
+        
+      }
+      tableBox += `</tbody>
+      </table>`;
+      
+      test.innerHTML = tableBox;
+                    
+                  }
+                  
+    //마지막날  시작날 공휴일 함수
+    function getDays(month = 1) {
+      switch (month) {
+        case 1:
+          space = 3, lastDay = 31, vac = [1,28,29,30]
+          break
+        case 2:
+          space = 6, lastDay = 28
+          break
+        case 3:
+          space = 6, lastDay = 31, vac = [3]
+          break
+        case 4:
+          space = 2, lastDay = 30
+          break
+        case 5:
+          space = 4, lastDay = 31, vac = [5, 6]
+          break
+        case 6:
+          space = 0, lastDay = 30, vac = [6]
+          break
+        case 7:
+          space = 2, lastDay = 31
+          break
+        case 8:
+          space = 5, lastDay = 31, vac = [15]
+          break
+        case 9:
+          space = 1, lastDay = 30
+          break
+        case 10:
+          space = 3, lastDay = 31, vac = [3, 5, 6, 7, 8, 9]
+          break
+        case 11:
+          space = 6, lastDay = 30
+          break
+        case 12:
+          space = 1, lastDay = 31, vac = [25]
+          break
+        default: 0
+      }
+    }
+                  </script>
+</body>
+
+</html>
