@@ -49,6 +49,7 @@
      
      //달력그리기 함수
      function drawCalinder(mon) {
+      tableBox ='';
        console.log(mon);
        //제외 
        if(mon == 0 || isNaN(mon) || mon >= 13){
@@ -87,13 +88,13 @@
         } else {
           tableBox += `<td>${[i]}</td>`
         }
-        
       }
       tableBox += `</tbody>
       </table>`;
       
       test.innerHTML = tableBox;
-                    
+      chRed()
+     
                   }
                   
     //마지막날  시작날 공휴일 함수
@@ -138,7 +139,19 @@
         default: 0
       }
     }
-                  </script>
+
+    //공휴일 빨간색 함수
+    function chRed (){
+      let arrTd = document.getElementsByTagName('td') ;
+      
+      for(let i = 0; i < vac.length; i++){
+        arrTd[vac[i] + space - 1].setAttribute('style','background-color: red');
+      }
+
+    }
+
+
+  </script>
 </body>
 
 </html>
