@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>exe2.html 작성.</title>
+</head>
+
+<body>
+  <label for="budy">이름: <input type="text" name="friend" id="budy"></label>
+  <label for="score">점수: <input type="text" name="score" id="score"></label>
+  <button id="add">친구추가</button>
+  <button id="del">친구삭제</button>
+
+  <table id="table" border="1" style="margin-top: 15px;">
+    <thead>
+      <tr>
+        <th>이름</th>
+        <th>점수</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+  <script>
+    let friendAry = [{
+        name: '정명한',
+        score: 80
+      },
+      {
+        name: '김지수',
+        score: 70
+      },
+      {
+        name: '고영서',
+        score: 85
+      },
+      {
+        name: '이민영',
+        score: 75
+      },
+      {
+        name: '정은애',
+        score: 90
+      }
+    ];
+    let obj = new Object;
+    let targetItem = document.querySelector('#list') //tbody
+    let addBtn = document.querySelector('button#add')
+    let delBtn = document.querySelector('button#del')
+    let html = '';
+
+    drawTable()
+
+      //검색창 비우기
+    let inpt = document.querySelector('input[name="friend"]')
+
+    inpt.addEventListener('click', function () {
+      inpt.value = '';
+    })
+    let scr = document.querySelector('input[name="score"]')
+
+    inpt.addEventListener('click', function () {
+      scr.value = '';
+    })
+
+
+    // 테이블 그리기
+    function drawTable() {
+      html = '';
+      friendAry.forEach(function (item, idx, ary) {
+        console.log(item.name);
+        html += `<tr><td>${item.name}</td> <td>${item.score}</td></tr>`;
+      })
+      targetItem.innerHTML = html;
+      console.log(friendAry);
+    }
+
+
+    //추가 이벤트
+    addBtn.addEventListener('click', function () {
+      console.log(friendAry);
+      if (inpt.value != '') {
+        obj.name = inpt.value;
+        obj.score = scr.value;
+        console.log(scr);
+        console.log(obj);
+        friendAry.push(obj);
+        console.log(friendAry);
+        drawTable();
+      }
+    })
+    //삭제 이벤트
+    // delBtn.addEventListener('click', function () {
+    //   let name = inpt.value;
+    //   let idx = '';
+    //   friendAry.forEach(function (item,index) {
+     
+    //     if(item.name == name){
+    //       idx = index;
+    //     }
+    //     idx = -1
+    //   })
+    //   if (idx == -1) {
+    //     alert("찾으시는 이름이 없습니다.")
+    //     inpt.value = '';
+    //     return
+    //   }
+    //   friendAry.splice(idx, 1);
+    //   drawTable()
+
+    // })
+    delBtn.addEventListener('click', function (){
+      let name = inpt.value;
+      friendAry = friendAry.filter(function (item, idx, ary){
+
+        if (item.name == name) {
+          return false;
+        }
+        return true;
+      })
+      drawTable();
+    })
+    //삭제 이벤드
+  </script>
+</body>
+
+</html>

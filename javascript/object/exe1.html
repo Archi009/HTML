@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>exe1.html 작성.</title>
+</head>
+<body>
+    <label for="budy">이름: <input type="text" name="friend" id="budy"></label> 
+    <button id="add">친구추가</button>
+    <button id="del">친구삭제</button>
+
+    <table id="table" border="1" style="margin-top: 15px;">
+      <thead>
+        <tr>
+          <th>이름</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <script>
+      let friendAry = ['정명한', '김지수', '고영서', '이민영', '정은애'];
+      let targetItem = document.querySelector('#list') //tbody
+      let addBtn = document.querySelector('button#add')
+      let delBtn = document.querySelector('button#del')
+      let html = '';
+
+      drawTable()
+
+
+      let inpt = document.querySelector('input[name="friend"]')
+      inpt.addEventListener('click',function () {
+        inpt.value = '';
+      })
+
+      function drawTable (){
+        html = '';
+        friendAry.forEach(function(item, idx, ary) {
+          html += `<tr><td>${item}</td></tr>`;
+          
+        })
+        targetItem.innerHTML = html;
+      }
+
+
+      //추가 이벤트
+      addBtn.addEventListener('click', function () { 
+        if(inpt.value != ''){
+        let name = inpt.value;
+        friendAry.push(name);
+        drawTable();
+        }
+      })
+
+      delBtn.addEventListener('click',function () {
+        let name = inpt.value;
+        let idx = friendAry.indexOf(name)
+        if(idx == -1){
+          alert("찾으시는 이름이 없습니다.")
+          inpt.value = '';
+          return
+        }
+        friendAry.splice(idx,1);
+        drawTable()
+
+      })
+
+      //삭제 이벤드
+
+
+    </script>
+</body>
+</html>

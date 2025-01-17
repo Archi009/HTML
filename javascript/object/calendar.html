@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="number" id="yer">
+  <input type="number" id="mont">
+  <button id="mkCal">달력</button>
+  <div id="show"></div>
+
+  <script>
+    let test = document.querySelector('div#show');
+    let yer = document.querySelector('input#yer');
+    let mont = document.querySelector('input#mont');
+    let space = 0;
+    let tableBox = '';
+    let vac = [];
+    let days = ['일', '월', '화', '수', '목', '금', '토'];
+    let holydays = [{
+        month: 1,
+        days: [1, 2, 3,4]
+      },
+      {
+        month: 2,
+        days: [25]
+      },
+      {
+        month: 3,
+        days: [5, 6, 18]
+      },
+      {
+        month: 4,
+        days: [20]
+      },
+      {
+        month: 5,
+        days: [22, 31]
+      }
+
+    ]
+    // let space = 0; //1일의 위치 공백
+    // let lastDay = 0; //마지막 날짜
+    let btn = document.querySelector('button#mkCal')
+
+    btn.addEventListener('click', function () {
+
+      drawCalinder(parseInt(yer.value), parseInt(mont.value))
+    });
+
+
+    //space, lastDay 구하기
+    let now = new Date();
+
+    //공휴일 빨간색 함수
+
+
+    //달력 구하기 함수 시작
+
+    drawCalinder();
+    //달력그리기 함수
+    function drawCalinder(yer = 2025, mon = 1) {
+      tableBox = '';
+      now.setFullYear(yer);
+      now.setMonth(mon - 1);
+      now.setDate(1);
+     space = now.getDay(); //1의 위치 공백 계산
+
+      now.setMonth(mon);
+      now.setDate(0);
+      let lastDay = now.getDate()
+
+
+      //제외 
+      if (mon == 0 || isNaN(mon) || mon >= 13 || mon < 0) {
+        alert("응 없어");
+        return;
+      }
+      //마지막 날 시작 날 공휴일
+
+
+      console.log(space, lastDay);
+      //달력 시작
+      tableBox += `<table border="1">
+        <caption>${yer}년 ${mon}월 </caption>
+        <thead>
+          <tr>`;
+
+      //요일 그리기
+      for (let i = 0; i < 7; i++) {
+        tableBox += `<th>${days[i]}</th>`;
+      }
+      tableBox += `</tr>
+      </thead>
+      <tbody id="list">`;
+
+      //공백 그리기
+      for (let i = 0; i < space; i++) {
+        tableBox += `<td></td>`;
+      }
+
+      //날짜그리기
+      for (let i = 1; i <= lastDay; i++) {
+        if ((i + space) % 7 == 0) {
+          tableBox += `<td style = 'background-color : blue; color : yellow'>${[i]}</td></tr>`
+          // continue
+        } else if ((i + space) % 7 == 1) {
+          tableBox += `<td style = 'background-color : red; color : black'>${[i]}</td>`
+        } else {
+          tableBox += `<td>${[i]}</td>`
+        }
+      }
+      tableBox += `</tbody>
+      </table>`;
+
+      test.innerHTML = tableBox;
+      chRed(mon)
+    }
+
+    function chRed(mon) {
+      let arrTd = document.getElementsByTagName('td');
+      let toMon = mon
+      console.log(mon);
+      holydays.forEach(function (item, idx) {
+        if (item.month == toMon) {
+          vac = item.days;
+        }
+      })
+      if (vac.length > 0) {
+        for (let i = 0; i < vac.length; i++) {
+          arrTd[vac[i] + space - 1].setAttribute('style', 'background-color: red');
+        }
+      }
+
+    }
+  </script>
+</body>
+
+</html>

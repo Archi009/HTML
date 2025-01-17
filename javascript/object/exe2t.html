@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 5px;
+      margin: 5px;
+      font-size: 25px;
+    }
+
+    button {
+      padding: 5px;
+      margin: 5px;
+    }
+
+    table {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <p>이름: <input type="text" name="friend"></p>
+  <p>점수: <input type="number" name="score"></p>
+  <p><button name="move">친구추가</button>
+  <button name="remove">친구삭제</button></p>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>이름</th>
+        <th>점수</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+  <script>
+    let obj = {};
+    // 이벤트 삭제.
+    document.querySelector('button[name="remove"]').addEventListener('click', function () {
+      let name = document.querySelector('input[name="friend"]').value;
+      // let pos = friendAry.indexOf(name);
+      friendAry = friendAry.filter(function(item, idx,ary){
+        // 이름이 같으면 false, 이름이 다르면 true.
+        // if(pos == friendAry){
+        //   friendAry.splice(pos, 1);
+        //   makeList();
+        //   document.querySelector('input[name="friend"]').value = '';
+        // }else{
+        //   alert("해당 학생이 없습니다.");
+        // }
+        if(item.name == name) {
+          document.querySelector('input[name="friend"]').value = '';
+          document.querySelector('input[name="score"]').value = '';
+          return false;
+        }
+          document.querySelector('input[name="friend"]').value = '';
+          document.querySelector('input[name="score"]').value = '';
+          return true;
+        });
+        makeList();
+      })
+    
+    // 추가이벤트 등록.
+    
+    document.querySelector('button[name="move"]').addEventListener('click', function () {
+      let name1 = document.querySelector('input[name="friend"]').value;
+      let score1 = document.querySelector('input[name="score"]').value;
+      if(name1 == '' && score1 == '') {
+        alert('이름과 점수 둘다 입력해주세요.');
+      }else{
+        obj = {name:name1, score:score1};
+        friendAry.push(obj);
+      }
+      makeList();
+      // 초기화.
+      document.querySelector('input[name="friend"]').value = '';
+      document.querySelector('input[name="score"]').value = '';
+    });
+    // name의 value값을 friendAry 배열에 추가하고 그 값을 테이블에 추가로 만듬
+    let friendAry = [{name:'정명한', score:80},
+                     {name:'김지수', score:95},
+                     {name:'고영서', score:70},
+                     {name:'이민영', score:90},
+                     {name:'정은애', score:60}];
+
+    let targetItem = document.querySelector('#list'); //tbody
+
+    //이름 출력.
+    function makeList() {
+      let html = '';
+      friendAry.forEach(function (item, idx, ary) {
+        
+        html += `<tr><td>${item.name}</td><td>${item.score}</td></tr>`;
+      });
+      targetItem.innerHTML = html;
+    };
+    makeList();
+  </script>
+</body>
+
+</html>
