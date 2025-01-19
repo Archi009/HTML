@@ -41,7 +41,6 @@
     let btn = document.querySelector('button#mkCal')
 
     btn.addEventListener('click', function(){
-      vac = []; 
       drawCalinder(parseInt(mont.value))
     });
 
@@ -94,8 +93,9 @@
       </table>`;
       
       test.innerHTML = tableBox;
-      if(vac.length >0){ chRed()}
-      }
+      chRed()
+     
+                  }
                   
     //마지막날  시작날 공휴일 함수
     function getDays(month = 1) {
