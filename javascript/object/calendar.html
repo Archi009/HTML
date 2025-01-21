@@ -5,6 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+   
+  </style>
 </head>
 
 <body>
@@ -14,16 +20,17 @@
   <div id="show"></div>
 
   <script>
-    let test = document.querySelector('div#show');
-    let yer = document.querySelector('input#yer');
-    let mont = document.querySelector('input#mont');
-    let space = 0;
-    let tableBox = '';
-    let vac = [];
+    console.dir(document.querySelector('#show'));
+    let test = document.querySelector('div#show'); //달력을 그려줄 위치
+    let yer = document.querySelector('input#yer'); //달력의 년도 위치
+    let mont = document.querySelector('input#mont'); //달력의 달(월) 위치
+    let space = 0; //달력을 첫 시작의 공백 갯수 
+    let tableBox = ''; //생성한 테이블을 순서대로 담을 변수.
+    let vac = []; //공휴일 배열
     let days = ['일', '월', '화', '수', '목', '금', '토'];
     let holydays = [{
         month: 1,
-        days: [1, 2, 3,4]
+        days: [1, 2, 3, 4]
       },
       {
         month: 2,
@@ -49,11 +56,11 @@
 
     btn.addEventListener('click', function () {
 
-      drawCalinder(parseInt(yer.value), parseInt(mont.value))
+      drawCalinder(yer.value, mont.value)
     });
 
 
-    //space, lastDay 구하기
+    //space, lastDay 구하기위한 날짜 인스턴스 생성
     let now = new Date();
 
     //공휴일 빨간색 함수
@@ -64,12 +71,16 @@
     drawCalinder();
     //달력그리기 함수
     function drawCalinder(yer = 2025, mon = 1) {
+      // console.log(yer);
       tableBox = '';
+
+      //찾고자하는 년월의 가장 첫번째 요일을 반환, 1일 앞의 공백 개수와 같다.
       now.setFullYear(yer);
       now.setMonth(mon - 1);
       now.setDate(1);
-     space = now.getDay(); //1의 위치 공백 계산
+      space = now.getDay(); //1일의 위치(요일값) 공백 계산
 
+      //찾고자하는 년월의 다음 달의 0일을 가져오면 원하는 달의 마지막 날을 반환한다.
       now.setMonth(mon);
       now.setDate(0);
       let lastDay = now.getDate()
@@ -80,10 +91,8 @@
         alert("응 없어");
         return;
       }
-      //마지막 날 시작 날 공휴일
 
-
-      console.log(space, lastDay);
+      // console.log(space, lastDay);
       //달력 시작
       tableBox += `<table border="1">
         <caption>${yer}년 ${mon}월 </caption>
@@ -121,7 +130,17 @@
       chRed(mon)
     }
 
+    //선택하는 달과 일치하는 달의 공휴일 날짜 가져오기 : filter method의 활용법을 익히자
+    let holyAry = holydays.filter(function (item, indx, ary) {
+      if (item.month == mont) {
+        return true;
+      }
+      return false;
+    })
+
+    //공휴일 빨간색
     function chRed(mon) {
+      vac =[];
       let arrTd = document.getElementsByTagName('td');
       let toMon = mon
       console.log(mon);
